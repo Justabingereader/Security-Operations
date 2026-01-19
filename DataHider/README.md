@@ -1,6 +1,15 @@
-CyberSteg: Hide Data Securely Using Steganography
+Image-Based Data Concealment
 
-In a world where confidentiality is crucial for both individuals and organizations, protecting data from unauthorized access becomes equally essential.
-This project addresses that need by hiding sensitive information in plain sight using images. Developed in Python,
-this Graphical-User Application (GUI) focuses on one of the core principles of cybersecurity: maintaining confidentiality.
-By embedding data within images, it ensures that your information remains concealed and secure from prying eyes, offering a practical and effective solution for data protection.
+Python GUI application for hiding sensitive data within images using steganography techniques.
+
+Security Application:
+
+Data confidentiality through visual concealment
+
+Covert communication channel
+
+Protection from unauthorized access
+
+Use Case: Secure data transmission where encryption alone may draw attention
+
+Core Principle: Maintains confidentiality by hiding data in plain sight
