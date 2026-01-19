@@ -1,6 +1,28 @@
-Risk Assessment Report
-The report documents the findings of a full risk management evaluation for the Financial application system of a technological university in Ireland.
-The report made use of the NIST 800-30 Revision 1(2012) framework to identify, classify and remediate identified logical and physical security risks that are applicable to the financial application system.
-Key Personnel, Areas of attack, likelihood and impact of possible attacks and the resulting risks of different areas of attack were identified and highlighted in this report, with a possible solution
-to mitigate or avoid the different identified risks also being detailed down in this report. 
-Finally a high view summary was given on the financial application system to highlight key areas of note in the report.
+NIST 800-30 Risk Management for Financial Systems
+Conducted comprehensive risk assessment for university financial application system managing sensitive financial, HR, and payroll data.
+Methodology:
+
+Applied NIST 800-30 Revision 1 framework
+Performed IT system characterization and boundary analysis
+Identified vulnerabilities across physical, logical, and administrative controls
+Determined likelihood and impact of identified risks
+Developed risk mitigation strategies with prioritized controls
+
+Critical Findings:
+
+Outdated password configurations increasing brute-force attack risk
+Non-periodic user access reviews enabling sustained unauthorized access
+Delayed termination of inactive accounts creating insider threat vectors
+Single-point backup failure risk from on-premises-only storage
+BYOD policy gaps expanding attack surface
+
+Recommended Controls:
+
+Zero-trust security architecture implementation
+Automated workflow and access review systems
+Strong password policies with MFA enforcement
+Off-site backup infrastructure
+Enhanced IDS/IPS with network traffic monitoring
+Role-based and attribute-based access controls
+
+Risk Rating: High impact, high likelihood vulnerabilities identified across Tier 1-3 systems
