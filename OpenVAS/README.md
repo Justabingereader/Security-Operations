@@ -1,2 +1,23 @@
-# OpenVAS
-The XML file and images displays the Greenbone security assistant daemon which is a locally hosted service that helps to scan information such as CVEs and application statuses of devices using their IP addresses and resulting findings in a readable excel sheet. This service was made possible through the installation and configuration of the Open Vulnerability Assessment system(OpenVAS) framework which is now part of the Greenbone vulnerability management framework, it involved running several commands on the Linux CLI most of which were debugging commands to fix the various errors the openvas components presented during the installation and configuration of the OpenVAS framework. This assessment further imposed the importance of network analysis tools to modern day organisations by helping such entities stay on top of the latest hardware and software changes.
+OpenVAS Security Assessment Framework
+
+Deployed Greenbone Security Assistant for automated vulnerability scanning and CVE identification.
+Implementation:
+
+Local installation and configuration of OpenVAS framework
+
+Network device scanning via IP address targeting
+
+CVE enumeration and application status reporting
+
+Excel-formatted vulnerability reports
+
+
+Technical Challenges:
+
+Linux CLI debugging during installation
+
+Component dependency resolution
+
+Service daemon configuration
+
+Value: Demonstrates importance of continuous network monitoring and vulnerability management
