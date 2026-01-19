@@ -1,5 +1,18 @@
-FED : Protecting Files one file at a time.
-This is a standalone Python Script that makes use of symmetric encryption to encrypt and decrypt files, This script aims to make the transfer of files over the internet much more secure
-and prevent some vectors of cyber attacks such as man-in-the-middle attacks, Both organizations and individuals can feel much more comfortable sending files over the internet and it can
-be customised for personal use, This project seeks to solve one of the main principles in the cybersecurity domain: confidentiality, and it also keeps in line with best security practices and
-guidelines.
+Symmetric File Encryption Tool
+
+Standalone Python script for secure file transfer protection using symmetric encryption.
+
+Purpose: Mitigate man-in-the-middle attacks during file transmission
+
+
+Security Benefits:
+
+Symmetric encryption for confidentiality
+
+Secure file transfer over untrusted networks
+
+Customizable encryption parameters
+
+Compliance with cybersecurity best practices
+
+Target Users: Organizations and individuals requiring secure file exchange
