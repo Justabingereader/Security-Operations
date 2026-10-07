@@ -83,3 +83,93 @@ Level 16-17: This level was similar to previous levels, except for the range of 
 ![Level 16-17: private key returned by the correct port (contents redacted)](screenshots/level16-17_private_key_received.png)
 
 ![Level 16-17: key saved as a file on the local machine](screenshots/level16-17_saved_key_file.png)
+
+Level 17-18:  After using key based authentication to gain access to this level, i navigated to the root directory from the home directory and used the cat command to output the password of level 17, for redundancy purposes in case i ever wanted a different method from ssh key based authentication, then i initially try to use the diff command and transfer the output to a new file, when that failed, i tried to pipe it and output it through a cat command, that also failed, so i just reverted to using the diff command, copying the output and gaining access to the next level.
+
+![Level 17-18: reading the current password, then diffing passwords.old against passwords.new (password redacted)](screenshots/level17-18_cat_pass_and_diff.png)
+
+![Level 17-18: diff output - the changed line is the next password (redacted)](screenshots/level17-18_diff_output.png)
+
+Level 18-19: Due to the nature of the level, with the .bashrc file being modified to log the user out upon  connection through an ssh protocol. I had to make use of appending quotes at the end of the ssh command, initially trying to cat the Readme file, when that didn't work, i tried to list the contents of the home directory through the ls command, then got the appropraite capitalisation, which i then used to obtain the password of the next level.
+
+![Level 18-19: running ls as an ssh command argument to dodge the .bashrc logout](screenshots/level18-19_ssh_command_ls.png)
+
+![Level 18-19: cat readme over ssh with correct capitalisation (password redacted)](screenshots/level18-19_ssh_cat_readme.png)
+
+Level 19-20: This level introduced binaries, with a binary on the default directory once access had been granted. I initially tried a setuid --help command to see what this level contained, however that command ended up being irrelevant as it was not installed and required administrator access to install. I then tried a ./ symbol with the binary, which told me what the binary did and essentially gave me the id of the user of the next level, this informed me that i now had access to the password of the next level through this binary, so i ran the binary along with the command needed to output the password of the next level where it was stored and was successfully authorised through the binary.
+
+![Level 19-20: exploring the setuid binary - id shows euid=bandit20](screenshots/level19-20_bandit20-do_attempts.png)
+
+![Level 19-20: using bandit20-do to cat the bandit20 password file (redacted)](screenshots/level19-20_bandit20-do_cat_password.png)
+
+Level 20-21: This level made use of two different terminals. when i authenticated into the level, i ran a ls command and found a binary, when i ran the binary, i saw that it sends back a password on a specific port if the password that was sent to it matches the password in it's storage. this prompted me to make use of netcat to act as a server listening on a specific port, i then used the help command to see the options that were available to me, ran the netcat command with the -l and -p flags to set it to listening mode and set an unused port number, after which, i connected to the level on another  terminal, ran the binary with the port number i specified on netcat, entered the password of the last level on netcat, and got sent the password of the next level by the binary on the listening netcat server.
+
+Level 21-22: This level introduced cron jobs. I had to list out the contents of /etc/cron.d to see what cronjobs were running on the system. after which i used the cat command to output the specific cron job to this level, which showed me the task the cronjob was running, i then used the cat command on the task the chrome job was running, showing me that it was setting permissions and outputting the password of the next level to a temp directory continuously, i then used the cat command on that directory, showing me the password of the next level.
+
+![Level 21-22: the cron script copies the password to a /tmp file, which is then read (redacted)](screenshots/level21-22_cronjob_tmp_file.png)
+
+Level 22-23: This level was similar to the last level, except it contained a bit more scripts, for this level, i had to initially rerun the entire file to see what it did, run each individual line with and without their variable names, and then i found the password of the next level by removing the $mytarget variable and using only the value in the variable, changing the \$myname variable in the value to bandit 23, catting the output of the hash it generated through the combination of a temp directory and the hash to get the password of the next level. 
+
+![Level 22-23: reading cronjob_bandit23 and running the script lines by hand](screenshots/level22-23_cronjob_script.png)
+
+![Level 22-23: substituting bandit23 into the md5 target and reading the /tmp file (password redacted)](screenshots/level22-23_md5_target_password.png)
+
+Level 23-24: For this level i had to create my own script and use the privilege of the next level's user to gain access to the password for the next level. After gaining access to the level, i confirmed what cronjob the level was running, then i catted the outputs of what it was running. This led me to the information that it was running scripts and deleting them as bandit24 in a certain folder. so i wrote a script into the directory and initially used the touch command, i found this didn't work, with my output coming back empty. i then used the redirect flag to create a new file in the tmp directory, i still didn't get access to the password. The solution turned out to be a permissions fix, with me including the executions permissions in the directory through the chmod +x command, to make my created script executable, this seemed to work, giving me the password of the next level.
+
+![Level 23-24: the script written into /var/spool/bandit24/foo](screenshots/level23-24_script_in_vim.png)
+
+![Level 23-24: output file never appearing - the script was not executable](screenshots/level23-24_tmp_file_attempts.png)
+
+![Level 23-24: chmod +x on the script, then the password lands in /tmp (redacted)](screenshots/level23-24_chmod_x_success.png)
+
+Level 24-25: This level involved the use of Brute force to go through 10000 combinations to find the value that combines with the password of the previous level to successfully give the password of the next level. A python script was created which mapped the combinations of the 10000 values to the previous level's password. The file generated by the python script then made use of a python script paired with a pipe flag to netcat that went through all the combinations till it got to the correct value and generated the password of the next level.
+
+![Level 24-25: first brute-force script attempt (nano could not save in the home directory)](screenshots/level24-25_bruteforce_script.png)
+
+![Level 24-25: iterating through Python errors - print syntax and the missing telnetlib module](screenshots/level24-25_python_errors.png)
+
+Level 25-26/26-27: This level made use of a different login terminal than bash, closing my connections when i didn't specify any commands and leading me to a zone where no text was parsed when i specified some commands. I gained access to this level through ssh key authentication. This level saw me start with the getent, more and vi command on my bandit25 terminal. i successfully gained access to the login terminal through a cat etc/passwd command, however use of the getent passwd bandit26 command highlighted a faster way to get the same result. i then navigated to the contents of the fle i was shown, leading me to see a more ~/text.txt as the login script for bandit 26 in bandit 25's terminal. I discovered a quirk in the more functionality that pauses if the terminal is small enough and lets me use the vi command to navigate to a text editor that could parse commands. i then created a new shell using the vi editor and listed the contents of the bandit 26 terminal. after this i copied the password of level 26 to give me another means of access which i didn't previously have due to my key based authentication. i saw a binary file in the list of contents and tried to run it through bash, this however didn't worked and left me with jumbled text which i tried to make sense of with strings and file commands to understand what i was working with, this led to some very useful hints about what type of file i was dealing with, and when i specified the exact directory with the id command, i was shown the purpose of the binary file as a means to grant me access as bandit27 on the terminal, which i then used to display the outputs of bandit 27's password. 
+
+![Level 25-26: logging in to bandit26 with the private key](screenshots/level25-26_ssh_key_login.png)
+
+![Level 25-26: getent passwd reveals /usr/bin/showtext as the login shell, which runs more](screenshots/level25-26_getent_showtext.png)
+
+![Level 25-26: escaping more -> vi -> :shell and inspecting the bandit27-do binary](screenshots/level25-26_vi_shell_escape.png)
+
+![Level 25-26: listing the bandit26 home directory (bandit26 password redacted)](screenshots/level26-27_bandit26_home.png)
+
+![Level 25-26: file and id on bandit27-do, then reading the bandit27 password (redacted)](screenshots/level26-27_bandit27-do.png)
+
+Level 27-28: This level was an introduction to git, it involved me cloning a git repo to my local machine, making use of the git clone command, once i successfully cloned the repo, i checked my local device using pwd command to check where the file landed, checked the directory, opened the readme, and saw the password to the next level.
+
+![Level 27-28: cloning without the 2220 port - the server rejects port 22](screenshots/level27-28_clone_wrong_port.png)
+
+![Level 27-28: the cloned README contains the next password (redacted)](screenshots/level27-28_readme_password.png)
+
+Level 28-29: This level initially looked similar to the last one, however, upon a review of the readme, it was found that the password credential had been redacted. The log of the local copy was then investigated, revealing three previous commits, and through their messages, the old commit that had the password and the new commit that had its password redacted were displayed. a git diff command with the comparison of the old and new commit displayed the difference between the two commits, revealing the redacted password.
+
+![Level 28-29: git log - the "fix info leak" commit is the clue](screenshots/level28-29_git_log.png)
+
+![Level 28-29: git diff between the two commits reveals the removed password (redacted)](screenshots/level28-29_git_diff.png)
+
+Level 29-30: Rather than dealing with history of commits, this level instead dealt with the different environment types in git. upon cloning the repo, i got access to the readme, which read that there were no keys in production, leading me to understand i was in the production branch. After using the git switch command to switch to a different branch, i made use of the git log command to show all past commits in the new test environment, then i used the git show command to show the contents of the last commit file for the environment i had switched to, giving me access to the password for the next level.
+
+![Level 29-30: "no passwords in production!" on master](screenshots/level29-30_production_readme.png)
+
+![Level 29-30: git show on the dev branch commit reveals the password (redacted)](screenshots/level29-30_dev_branch_show.png)
+
+Level 30-31: This level involved the use of git tags. Through the refs directory oresent in the .git directory, branches, environment types and tags were found, since the previous two levels were focused on both branches and environment types, i reasoned that this level must be focused on tags, leaving me to research on what tags were and how to display the contents of a git tag, leading to the password for the next level.
+
+![Level 30-31: .git/refs leads to a tag named secret; git show secret (output redacted)](screenshots/level30-31_git_tag_secret.png)
+
+Level 31-32: Upon cloning the repo for this level, The readme informed me i was to push contents to the remote repo in this round. After initially creating the file, adding it, commiting it, and pushing it, i was told everything was up to date, even though my file was successfully created and reflected when i ran the ls -a flag, leading me to the belief that something was suppressing my file, i included it either way the force flag in the git add flag, successfully adding and pushing the file, however it still failed to give me the password of the next level. I realised the error was in the capitalisation in the naming of the file, prompting me to rename and repush the file, successfully getting the password for the next level.
+
+![Level 31-32: "nothing to commit" - .gitignore was silently excluding the file (local notes and email redacted)](screenshots/level31-32_nothing_to_commit.png)
+
+![Level 31-32: pushing Key.txt - rejected by the pre-receive hook because of the capital K](screenshots/level31-32_push_rejected.png)
+
+![Level 31-32: after renaming to key.txt the hook returns the password (redacted)](screenshots/level31-32_password_returned.png)
+
+Level 32-33: Upon successful authentication to this level, i came upon an uppershell, which wrapped all of my flags in upper cases and sent it out for execution, leaving them nonfunctional due to linux's case sensitivity. To get around this, i had to look outside of just letters, for values that remained the same even after they had been wrapped, that led me to shell special characters, and after reading what each did, i surmised that the $0 flag might be able to get me out of the uppershell, i noticed the terminal had changed and i could run commands now, i ran an ls and a whoami command which gave me information about the system, but temporarily not knowing what to do, i ran the binary file that was in the default directory, which brought me back to the uppershell, after further research, i found out i had already mistakenly broken out of the shell, and a whoami command revealed that i had the privileges of the next level, leading me to cat out the contents of the password of the next level and gaining access to the password.
+
+![Level 32-33: $0 survives uppercasing and spawns a shell as bandit33 (password redacted)](screenshots/level32-33_uppershell_escape.png)
